@@ -58,6 +58,12 @@ sshd_max_auth_tries_value: '4'
 var_sshd_max_sessions: '10'
 var_sshd_set_maxstartups: 10:30:60
 sshd_strong_kex: -diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1
+# List of users allowed to authenticate via SSH (space separated in config).
+# Example: ['admin', 'deploy']
+sshd_allow_users: ['admin']
+# Whether to allow password authentication for SSH. Set to true to ensure
+# `PasswordAuthentication yes` is present after hardening.
+sshd_password_authentication: true
 var_audit_backlog_limit: '8192'
 var_accounts_passwords_pam_faillock_dir: /var/run/faillock
 var_auditd_disk_error_action: syslog|single|halt
