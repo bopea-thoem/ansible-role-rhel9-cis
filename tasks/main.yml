@@ -4,6 +4,53 @@
   tags:
   - always
 
+- name: Ensure SSH `AllowUsers` contains configured users
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?AllowUsers\s+.*'
+    line: "AllowUsers {{ sshd_allow_users | join(' ') }}"
+    create: yes
+    backup: yes
+  notify: restart sshd
+  when: sshd_allow_users | length > 0
+  tags:
+  - ssh
+
+- name: Ensure `PermitRootLogin yes` when `root` is allowed
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin\s+.*'
+    line: 'PermitRootLogin yes'
+    create: yes
+    backup: yes
+  when: "'root' in sshd_allow_users"
+  notify: restart sshd
+  tags:
+  - ssh
+
+- name: Ensure PasswordAuthentication matches configured value
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PasswordAuthentication\s+.*'
+    line: "PasswordAuthentication {{ (sshd_password_authentication | bool) | ternary('yes','no') }}"
+    create: yes
+    backup: yes
+  notify: restart sshd
+  tags:
+  - ssh
+
+- name: Ensure `PermitRootLogin yes` when override is enabled
+  ansible.builtin.lineinfile:
+    path: /etc/ssh/sshd_config
+    regexp: '^#?PermitRootLogin\s+.*'
+    line: 'PermitRootLogin yes'
+    create: yes
+    backup: yes
+  notify: restart sshd
+  when: sshd_permit_root_login_override | bool
+  tags:
+  - ssh
+
 - name: Ensure aide is installed
   ansible.builtin.package:
     name: aide

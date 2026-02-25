@@ -1,2 +1,9 @@
 ---
 # handlers file for ansible-role-rhel9-cis
+
+- name: restart sshd
+	ansible.builtin.service:
+		name: sshd
+		state: restarted
+---
+# handlers file for ansible-role-rhel9-cis

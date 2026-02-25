@@ -59,11 +59,16 @@ var_sshd_max_sessions: '10'
 var_sshd_set_maxstartups: 10:30:60
 sshd_strong_kex: -diffie-hellman-group1-sha1,diffie-hellman-group14-sha1,diffie-hellman-group-exchange-sha1
 # List of users allowed to authenticate via SSH (space separated in config).
+# Leave empty to avoid enforcing an `AllowUsers` restriction.
 # Example: ['admin', 'deploy']
-sshd_allow_users: ['admin']
+sshd_allow_users: []
 # Whether to allow password authentication for SSH. Set to true to ensure
 # `PasswordAuthentication yes` is present after hardening.
 sshd_password_authentication: true
+# Whether to explicitly enforce PermitRootLogin yes (useful when AllowUsers
+# is empty but you still want to allow root SSH). Set to `false` to leave
+# PermitRootLogin unchanged by this role.
+sshd_permit_root_login_override: true
 var_audit_backlog_limit: '8192'
 var_accounts_passwords_pam_faillock_dir: /var/run/faillock
 var_auditd_disk_error_action: syslog|single|halt
@@ -367,7 +372,7 @@ banner_etc_motd_cis: true
 chronyd_run_as_chrony_user: true
 chronyd_specify_remote_server: true
 configure_custom_crypto_policy_cis: true
-configure_ssh_crypto_policy: true
+configure_ssh_crypto_policy: false
 configure_strategy: true
 coredump_disable_backtraces: true
 coredump_disable_storage: true
@@ -416,12 +421,12 @@ file_groupowner_etc_passwd: true
 file_groupowner_etc_shadow: true
 file_groupowner_etc_shells: true
 file_groupowner_grub2_cfg: true
-file_groupowner_sshd_config: true
+file_groupowner_sshd_config: false
 file_groupowner_user_cfg: true
 file_groupownership_audit_binaries: true
 file_groupownership_audit_configuration: true
-file_groupownership_sshd_private_key: true
-file_groupownership_sshd_pub_key: true
+file_groupownership_sshd_private_key: false
+file_groupownership_sshd_pub_key: false
 file_owner_backup_etc_group: true
 file_owner_backup_etc_gshadow: true
 file_owner_backup_etc_passwd: true
@@ -442,12 +447,12 @@ file_owner_etc_passwd: true
 file_owner_etc_shadow: true
 file_owner_etc_shells: true
 file_owner_grub2_cfg: true
-file_owner_sshd_config: true
+file_owner_sshd_config: false
 file_owner_user_cfg: true
 file_ownership_audit_binaries: true
 file_ownership_audit_configuration: true
-file_ownership_sshd_private_key: true
-file_ownership_sshd_pub_key: true
+file_ownership_sshd_private_key: false
+file_ownership_sshd_pub_key: false
 file_permission_user_init_files: true
 file_permissions_at_allow: true
 file_permissions_audit_binaries: true
@@ -473,9 +478,9 @@ file_permissions_etc_shadow: true
 file_permissions_etc_shells: true
 file_permissions_grub2_cfg: true
 file_permissions_home_directories: true
-file_permissions_sshd_config: true
-file_permissions_sshd_private_key: true
-file_permissions_sshd_pub_key: true
+file_permissions_sshd_config: false
+file_permissions_sshd_private_key: false
+file_permissions_sshd_pub_key: false
 file_permissions_user_cfg: true
 file_permissions_var_log_audit: true
 firewalld_loopback_traffic_restricted: true
@@ -588,22 +593,22 @@ set_password_hashing_algorithm_logindefs: true
 set_password_hashing_algorithm_passwordauth: true
 set_password_hashing_algorithm_systemauth: true
 special_service_block: true
-sshd_disable_empty_passwords: true
-sshd_disable_forwarding: true
-sshd_disable_gssapi_auth: true
-sshd_disable_rhosts: true
-sshd_disable_root_login: true
-sshd_do_not_permit_user_env: true
-sshd_enable_pam: true
-sshd_enable_warning_banner_net: true
-sshd_set_idle_timeout: true
-sshd_set_keepalive: true
-sshd_set_login_grace_time: true
-sshd_set_loglevel_verbose: true
-sshd_set_max_auth_tries: true
-sshd_set_max_sessions: true
-sshd_set_maxstartups: true
-sshd_use_strong_kex: true
+sshd_disable_empty_passwords: false
+sshd_disable_forwarding: false
+sshd_disable_gssapi_auth: false
+sshd_disable_rhosts: false
+sshd_disable_root_login: false
+sshd_do_not_permit_user_env: false
+sshd_enable_pam: false
+sshd_enable_warning_banner_net: false
+sshd_set_idle_timeout: false
+sshd_set_keepalive: false
+sshd_set_login_grace_time: false
+sshd_set_loglevel_verbose: false
+sshd_set_max_auth_tries: false
+sshd_set_max_sessions: false
+sshd_set_maxstartups: false
+sshd_use_strong_kex: false
 sudo_add_use_pty: true
 sudo_custom_logfile: true
 sudo_require_authentication: true
